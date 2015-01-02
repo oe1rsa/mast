@@ -45,7 +45,7 @@ PayloadType	payload_type_mpeg_audio = {
 	NULL,	// zero pattern N/A
 	0,		// pattern_length N/A
 	0,		// normal_bitrate
-	"mpa",	// MIME Type
+    const_cast<char*>("mpa"),	// MIME Type
 	0		// flags
 };
 
@@ -92,7 +92,7 @@ void mast_setup_signals()
 
 
 /* Handle an error and store the error message */
-void mast_message_handler( int level, const char* file, int line, char *fmt, ... )
+void mast_message_handler( int level, const char* file, int line, const char *fmt, ... )
 {
 	va_list args;
 	char lastchar = fmt[ strlen(fmt)-1 ];

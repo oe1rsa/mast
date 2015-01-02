@@ -32,7 +32,7 @@ libmastcodecs_a_SOURCES = \
 	MastCodec_PCMA.h
 
 MAST_CODEC_LIBS = \
-	libmastcodecs.a \
+        libmastcodecs.a -lm \
 	-lsamplerate \
 	../libgsm/libgsm.a
 
@@ -40,7 +40,7 @@ if HAVE_TWOLAME
 MAST_CODEC_LIBS += -ltwolame
 endif
 
-
+mast_info_LDADD = @ORTP_LIBS@
 mast_info_SOURCES = \
 	mast_info.cpp \
 	MastTool.cpp \
@@ -52,7 +52,7 @@ mast_info_SOURCES = \
 	mast.h \
 	util.cpp
 
-
+mast_rawcast_LDADD = @ORTP_LIBS@
 mast_rawcast_SOURCES = \
 	mast_rawcast.cpp \
 	MastTool.cpp \
@@ -64,7 +64,7 @@ mast_rawcast_SOURCES = \
 	mast.h \
 	util.cpp
 
-
+mast_rawrecord_LDADD = @ORTP_LIBS@
 mast_rawrecord_SOURCES = \
 	mast_rawrecord.cpp \
 	MastTool.cpp \
@@ -78,7 +78,7 @@ mast_rawrecord_SOURCES = \
 
 
 mast_cast_CFLAGS = @JACK_CFLAGS@
-mast_cast_LDADD = $(MAST_CODEC_LIBS) @JACK_LIBS@
+mast_cast_LDADD = @ORTP_LIBS@ $(MAST_CODEC_LIBS) @JACK_LIBS@
 mast_cast_SOURCES = \
 	mast_cast.cpp \
 	MastTool.cpp \
@@ -92,7 +92,7 @@ mast_cast_SOURCES = \
 
 
 mast_filecast_CFLAGS = @SNDFILE_CFLAGS@
-mast_filecast_LDADD = $(MAST_CODEC_LIBS) @SNDFILE_LIBS@
+mast_filecast_LDADD = @ORTP_LIBS@ $(MAST_CODEC_LIBS) @SNDFILE_LIBS@
 mast_filecast_SOURCES = \
 	mast_filecast.cpp \
 	MastTool.cpp \
@@ -106,7 +106,7 @@ mast_filecast_SOURCES = \
 
 
 mast_record_CFLAGS = @SNDFILE_CFLAGS@
-mast_record_LDADD = $(MAST_CODEC_LIBS) @SNDFILE_LIBS@
+mast_record_LDADD = @ORTP_LIBS@ $(MAST_CODEC_LIBS) @SNDFILE_LIBS@
 mast_record_SOURCES = \
 	mast_record.cpp \
 	MastTool.cpp \

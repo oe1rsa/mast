@@ -89,7 +89,7 @@ static void parse_cmd_line(int argc, char **argv, RtpSession* session)
 	if (local_port%2 == 1) local_port--;
 	
 	// Set the remote address/port
-	if (rtp_session_set_local_addr( session, local_address, local_port )) {
+    if (rtp_session_set_local_addr( session, local_address, local_port, local_port+1 )) {
 		MAST_FATAL("Failed to set receive address/port (%s/%u)", local_address, local_port);
 	} else {
 		printf( "Receive address: %s/%u\n", local_address,  local_port );
@@ -105,10 +105,9 @@ int main(int argc, char **argv)
 {
 	MastTool* tool = NULL;
 	mblk_t* packet = NULL;
-	mblk_t* body = NULL;
 	PayloadType* pt = NULL;
 	int payload_size = 0;
-
+    unsigned char* payload = NULL;
 	
 	// Create an RTP session
 	tool = new MastTool( MAST_TOOL_NAME, RTP_SESSION_RECVONLY );
@@ -126,8 +125,7 @@ int main(int argc, char **argv)
 	// Recieve a single packet
 	packet = tool->wait_for_rtp_packet();
 	if (packet == NULL) MAST_FATAL("Failed to receive a packet");
-	body = packet->b_cont;
-	payload_size = (body->b_wptr - body->b_rptr);
+    payload_size = rtp_get_payload( packet, &payload);
 
 	
 	// Display information about the packet received
@@ -176,13 +174,13 @@ int main(int argc, char **argv)
 	// Parse the MPEG Audio header
 	if (rtp_get_payload_type( packet ) == RTP_MPEG_AUDIO_PT) {
 		/* FIXME: check fragment offset header (see rfc2250) */
-		unsigned char* mpa_ptr = body->b_rptr + 4;
+        unsigned char* mpa_ptr = payload + 4;
 		MPA_Header mh;
 	
 		printf("MPEG Audio Header\n");
 		printf("=================\n");
 		
-		if (!mh.parse( mpa_ptr )) {
+        if (!mh.parse( mpa_ptr )) {
 			MAST_WARNING("Failed to parse MPEG Audio header");
 		} else {
 			mh.debug( stdout );

@@ -28,6 +28,7 @@
 #include <string.h>
 #include <getopt.h>
 
+#include <cassert>
 
 #include "MPA_Header.h"
 #include "MastTool.h"
@@ -320,7 +321,8 @@ static void main_loop_mpa( MastTool *tool, FILE* input, u_int8_t* buffer )
 				if (synced) {
 				
 					// Read in the rest of the frame
-					fread( &mpabuf[4], 1, mh.get_framesize()-4, input);
+                    size_t got = fread( &mpabuf[4], 1, mh.get_framesize()-4, input);
+                    assert(got !=0);
 
 					// Send audio payload (plus 4 null bytes at the start)
 					rtp_session_send_with_ts(tool->get_session(), buffer, mh.get_framesize()+4, timestamp);

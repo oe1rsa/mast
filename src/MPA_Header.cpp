@@ -256,7 +256,21 @@ MPA_Header::MPA_Header()
 
 MPA_Header::MPA_Header( const u_int8_t* buff )
 {
-	MPA_Header();
+    // Initialise variables
+    syncword = 0;
+    layer = 0;
+    version = 0;
+    error_protection = 0;
+    bitrate_index = 0;
+    samplerate_index = 0;
+    padding = 0;
+    extension = 0;
+    mode = 0;
+    mode_ext = 0;
+    copyright = 0;
+    original = 0;
+    emphasis = 0;
+
 	this->parse( buff );
 }
 

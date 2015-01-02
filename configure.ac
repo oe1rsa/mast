@@ -42,10 +42,10 @@ AC_ARG_ENABLE(debug,
 dnl ############## Check for tools to build documentation
 
 AC_PATH_PROG( [ASCIIDOC], [asciidoc] )
-AC_SUBST( POD2MAN )
+#AC_SUBST( POD2MAN )
 
 AC_PATH_PROG( [XMLTO], [xmlto] )
-AC_SUBST( XMLTO )
+#AC_SUBST( XMLTO )
 
 if test "x$ac_cv_path_ASCIIDOC" != "x" -a "x$ac_cv_path_XMLTO" != "x"; then
 	BUILD_DOC="Yes"
@@ -116,11 +116,10 @@ AC_CHECK_TYPE(u_int8_t, unsigned char)
 dnl ############## Compiler and Linker Flags
 CFLAGS="$CFLAGS $ORTP_CFLAGS"
 CXXFLAGS="$CFLAGS $ORTP_CFLAGS"
-LDFLAGS="$LDFLAGS $ORTP_LIBS"
 
 if test x$Debugging = xEnabled; then
-	CFLAGS="$CFLAGS -g -Wunused -Wall -Werror"
-	CXXFLAGS="$CXXFLAGS -g -Wunused -Wall -Werror"
+        CFLAGS="$CFLAGS -g -Wunused -Wall -Werror"
+        CXXFLAGS="$CXXFLAGS -g -Wunused -Wall -Werror"
 else
 	CFLAGS="$CFLAGS -O2"
 	CXXFLAGS="$CXXFLAGS -O2"
