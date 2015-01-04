@@ -69,7 +69,8 @@ PKG_CHECK_MODULES(ORTP, ortp >= 0.13.2, ,
 
 dnl This is a hack because ortp broke backward compatibility
 PKG_CHECK_MODULES(ORTP2, ortp >= 0.22.0,
-        [ AC_DEFINE_UNQUOTED( ORTP2, 1, [ Define if separate RTCP port ] ) ]
+        [ AC_DEFINE_UNQUOTED( ORTP2, 1, [ Define if separate RTCP port ] ) ],
+        [ ]
 )
 
 dnl Check for Secret Rabbit Code (it is optional)
