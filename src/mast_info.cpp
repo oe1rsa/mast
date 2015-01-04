@@ -36,8 +36,6 @@
 
 #define MAST_TOOL_NAME	"mast_info"
 
-
-
 static int usage() {
 	
 	printf( "Multicast Audio Streaming Toolkit (version %s)\n", PACKAGE_VERSION);
@@ -87,9 +85,15 @@ static void parse_cmd_line(int argc, char **argv, RtpSession* session)
 	
 	// Make sure the port number is even
 	if (local_port%2 == 1) local_port--;
-	
-	// Set the remote address/port
-    if (rtp_session_set_local_addr( session, local_address, local_port, local_port+1 )) {
+
+    // Set the remote address/port
+    if (
+#           ifdef ORTP2
+            rtp_session_set_local_addr( session, local_address, local_port, local_port+1 )
+#           else
+            rtp_session_set_local_addr( session, local_address, local_port )
+#           endif
+       ) {
 		MAST_FATAL("Failed to set receive address/port (%s/%u)", local_address, local_port);
 	} else {
 		printf( "Receive address: %s/%u\n", local_address,  local_port );
